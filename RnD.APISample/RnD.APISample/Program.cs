@@ -6,6 +6,7 @@ using System.Text;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace RnD.APISample
 {
@@ -25,6 +26,8 @@ namespace RnD.APISample
             {
                 Console.WriteLine("Start...");
 
+                #region Old Code
+
                 //var urlAuthor = "https://tcomx4.screenslicer.com/screenslicer/query-keyword";
                 //var clientAuthor = new HttpClient();
                 //clientAuthor.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("BASIC", "ZGV2OjJrMWVabDFnNnVuRDdJMmphT2s2V2o=");
@@ -39,24 +42,26 @@ namespace RnD.APISample
                 //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 //var response = client.GetAsync(url).Result;
 
+                #endregion
+
                 #region by Authorization
 
-                System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
-                client.BaseAddress = new System.Uri(url);
-                //byte[] cred = UTF8Encoding.UTF8.GetBytes("username:password");
-                //byte[] cred = UTF8Encoding.UTF8.GetBytes("dev:2k1eZl1g6unD7I2jaOk6Wj");
-                byte[] cred = UTF8Encoding.UTF8.GetBytes("ZGV2OjJrMWVabDFnNnVuRDdJMmphT2s2V2o=");
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("BASIC", Convert.ToBase64String(cred));
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                System.Net.ServicePointManager.Expect100Continue = false;
-                System.Net.Http.HttpContent content = new StringContent(data, UTF8Encoding.UTF8, "application/json");
-                HttpResponseMessage messge = client.PostAsync(url, content).Result;
-                string description = string.Empty;
-                if (messge.IsSuccessStatusCode)
-                {
-                    string result = messge.Content.ReadAsStringAsync().Result;
-                    description = result;
-                }
+                //System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
+                //client.BaseAddress = new System.Uri(url);
+                ////byte[] cred = UTF8Encoding.UTF8.GetBytes("username:password");
+                ////byte[] cred = UTF8Encoding.UTF8.GetBytes("dev:2k1eZl1g6unD7I2jaOk6Wj");
+                //byte[] cred = UTF8Encoding.UTF8.GetBytes("ZGV2OjJrMWVabDFnNnVuRDdJMmphT2s2V2o=");
+                //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("BASIC", Convert.ToBase64String(cred));
+                //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                //System.Net.ServicePointManager.Expect100Continue = false;
+                //System.Net.Http.HttpContent content = new StringContent(data, UTF8Encoding.UTF8, "application/json");
+                //HttpResponseMessage messge = client.PostAsync(url, content).Result;
+                //string description = string.Empty;
+                //if (messge.IsSuccessStatusCode)
+                //{
+                //    string result = messge.Content.ReadAsStringAsync().Result;
+                //    description = result;
+                //}
 
                 #endregion
 
@@ -95,12 +100,47 @@ namespace RnD.APISample
 
                 #endregion
 
+                #region By Faz
+
+                //string clientBaseAddress = "https://tcomx4.screenslicer.com/";
+                string clientBaseAddress = "https://recruit.theladders.com/";
+                string credCode = "dev:2k1eZl1g6unD7I2jaOk6Wj";
+                string strContent1 = @"{""instances"": [""104.131.215.49""],""site"": ""http://www.dice.com"",""keywords"": ""asp.net mvc""}";
+                string strContent2 = @"{""instances"":[""104.131.215.49""], ""site"":""http://www.dice.com"", ""keywords"":""asp.net mvc"", ""fetch"":true, ""credentials"":{""username"":""nill_akash_7@hotmail.com"",""password"":""admin123#@""}}";
+                
+                GetApiData(clientBaseAddress, credCode, strContent2);
+
+                #endregion
+
                 Console.WriteLine("End...");
                 Console.ReadLine();
             }
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        private static void GetApiData(string clientBaseAddress, string credCode, string strContent)
+        {
+            System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
+            client.BaseAddress = new System.Uri(clientBaseAddress);
+            byte[] cred = UTF8Encoding.UTF8.GetBytes(credCode);
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("BASIC",
+                Convert.ToBase64String(cred));
+            client.DefaultRequestHeaders.Accept.Add(
+                new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            System.Net.ServicePointManager.Expect100Continue = false;
+            System.Net.Http.HttpContent content = new StringContent(strContent, UTF8Encoding.UTF8, "application/json");
+            HttpResponseMessage messge = client.PostAsync("screenslicer/query-keyword", content).Result;
+            string description = string.Empty;
+            if (messge.IsSuccessStatusCode)
+            {
+                string result = messge.Content.ReadAsStringAsync().Result;
+                description = result;
+
+                var dataList = JsonConvert.DeserializeObject<object>(description);
+
             }
         }
     }
