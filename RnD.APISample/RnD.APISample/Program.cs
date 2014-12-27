@@ -106,7 +106,9 @@ namespace RnD.APISample
                 //string clientBaseAddress = "https://recruit.theladders.com/";
                 string credCode = "dev:2k1eZl1g6unD7I2jaOk6Wj";
                 string strContent1 = @"{""instances"": [""104.131.215.49""],""site"": ""http://www.dice.com"",""keywords"": ""asp.net mvc""}";
-                string strContent2 = @"{""instances"":[""104.131.215.49""], ""site"":""https://recruit.theladders.com/"", ""keywords"":""asp.net mvc"", ""fetch"":true, ""credentials"":{""username"":""nill_akash_7@hotmail.com"",""password"":""admin123#@""}}";
+                //"preSearchClicks":[{"innerText":"Don't show this again"}], "preAuthClicks":[{"innerText":"Sign In >","href":"https://recruit.theladders.com/login"}]
+                //string strContent2 = @"{""instances"":[""104.131.215.49""], ""site"":""https://recruit.theladders.com/"", ""keywords"":""asp.net mvc"", ""fetch"":true, ""credentials"":{""username"":""nill_akash_7@hotmail.com"",""password"":""admin123#@""}}";
+                string strContent2 = @"{""instances"":[""104.131.215.49""], ""site"":""https://recruit.theladders.com/"", ""keywords"":""asp.net mvc"", ""fetch"":true, ""credentials"":{""username"":""nill_akash_7@hotmail.com"",""password"":""admin123#@""}, ""preSearchClicks"":[{""innerText"":""Don't show this again""}], ""preAuthClicks"":[{""innerText"":""Sign In >"",""href"":""https://recruit.theladders.com/login""}]}";
                 
                 GetApiData(clientBaseAddress, credCode, strContent2);
 
