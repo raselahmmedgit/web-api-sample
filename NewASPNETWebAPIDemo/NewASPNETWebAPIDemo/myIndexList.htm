@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>My Index Web API Application</title>
+</head>
+<body>
+    <div id="content">
+        <h2>
+            My Index list of get by AsQueryable OData</h2>
+        <div id="my-index">
+        
+            <div id="myindexes">
+            </div>
+        </div>
+    </div>
+    <script src="Scripts/jquery-1.6.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        //for get list of myindexes
+        listMyIndexes(function (myindexes) {
+            var strMyIndexes = "";
+            $.each(myindexes, function (index, myindex) {
+                strMyIndexes += "<div>Name : <span>" + myindex.Name + "</span></div>";
+                strMyIndexes += "<div>Mobile : <span>" + myindex.Mobile + "</span></div>";
+                strMyIndexes += "<div>Email : <span>" + myindex.Email + "</span></div>";
+            });
+            $("#myindexes").html(strMyIndexes);
+        });
+
+        function listMyIndexes(callback) {
+            $.ajax({
+                url: "/api/MyIndex/ListMyIndexes",
+                data: {},
+                type: "GET",
+                contentType: "application/json;charset=utf-8"
+            }).then(function (myindexes) {
+                callback(myindexes);
+            });
+        }
+
+    </script>
+</body>
+</html>

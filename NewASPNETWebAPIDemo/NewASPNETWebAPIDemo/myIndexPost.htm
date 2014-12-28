@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>My Index Web API Application</title>
+</head>
+<body>
+    <div id="content">
+        <h2>
+            My Index create by POST() Method</h2>
+        <div id="my-index">
+            <div>
+                Name :
+                <input type="text" id="name" />
+            </div>
+            <div>
+                Mobile :
+                <input type="text" id="mobile" />
+            </div>
+            <div>
+                Email :
+                <input type="text" id="email" />
+            </div>
+        </div>
+    </div>
+    <script src="Scripts/jquery-1.6.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        //for create myindex
+        var myindexToCreate = { name: "Rasel Ahmmed Bappi", mobile: "+88-02-01911045573", email: "raselahmmed@gmail.com" };
+
+        //for create myindex error checking
+        //        var myindexToCreate = { name: "Rasel Ahmmed Bappi", mobile: "+88-02-01911045573", email: "" };
+
+        createMyIndex(myindexToCreate, function (newMyIndex) {
+            alert("New index created with an id of " + newMyIndex.ID);
+        },
+        function (errors) {
+            var strErrors = "";
+            $.each(errors, function (index, err) { strErrors += "* " + err + "\n"; });
+            alert(strErrors);
+        }
+        );
+
+        function createMyIndex(myindexToCreate, callback) {
+            $.ajax({
+                url: "/api/MyIndex/PostMyIndex",
+                data: JSON.stringify(myindexToCreate),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                statusCode: {
+                    201: function (newMyIndex) { callback(newMyIndex); }
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

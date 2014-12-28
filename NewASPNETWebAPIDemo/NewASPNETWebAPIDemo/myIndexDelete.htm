@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>My Index Web API Application</title>
+</head>
+<body>
+    <div id="content">
+        <h2>
+            My Index delete by DELETE() Method</h2>
+        <div id="my-index">
+            <div>
+                Name : <span id="name"></span>
+            </div>
+            <div>
+                Mobile : <span id="mobile"></span>
+            </div>
+            <div>
+                Email : <span id="email"></span>
+            </div>
+        </div>
+    </div>
+    <script src="Scripts/jquery-1.6.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        //for delete movie to datebase
+        deleteMyIndex(1, function () { alert("Index deleted!"); });
+
+        function deleteMyIndex(id, callback) {
+            $.ajax({
+                url: "/api/MyIndex/DeleteMyIndex",
+                data: JSON.stringify({ id: id }),
+                type: "DELETE",
+                contentType: "application/json;charset=utf-8",
+                statusCode: { 200: function () { callback(); } }
+            });
+        }
+
+    </script>
+</body>
+</html>

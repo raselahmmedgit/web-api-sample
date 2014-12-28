@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>My Index Web API Application</title>
+</head>
+<body>
+    <div id="content">
+        <h2>
+            My Index update by PUT() Method</h2>
+        <div id="my-index">
+            <div>
+                Name :
+                <input type="text" id="name" />
+            </div>
+            <div>
+                Mobile :
+                <input type="text" id="mobile" />
+            </div>
+            <div>
+                Email :
+                <input type="text" id="email" />
+            </div>
+        </div>
+    </div>
+    <script src="Scripts/jquery-1.6.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        //for update myindex to database
+        var myindexToUpdate = { id: 1, name: "Rasel Ahmmed Bappi", mobile: "+88-02-01911045573", email: "raselahmmed@gmail.com" };
+
+        updateMyIndex(myindexToUpdate, function () { alert("My Index updated!"); });
+
+        function updateMyIndex(myindexToUpdate, callback) {
+            $.ajax({
+                url: "/api/MyIndex/PutMyIndex",
+                data: JSON.stringify(myindexToUpdate),
+                type: "PUT",
+                contentType: "application/json;charset=utf-8",
+                statusCode: {
+                    200: function () { callback(); },
+                    404: function () { alert("My Index not found!"); }
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
